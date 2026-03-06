@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task Manager – Complete Reference</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 30px; }
+
+  .section-title {
+    font-size: 28px; font-weight: bold; color: #1F3864;
+    margin: 40px 0 16px; border-left: 5px solid #2E74B5;
+    padding-left: 14px;
+  }
+  .subsection-title {
+    font-size: 18px; font-weight: bold; color: #2E74B5;
+    margin: 28px 0 10px;
+  }
+
+  /* ── VISION TEXT ── */
+  .vision-box {
+    background: white; border-radius: 12px; padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08); max-width: 1100px;
+    margin: 0 auto 16px; line-height: 1.7; color: #222; font-size: 14px;
+  }
+  .vision-box p { margin-bottom: 12px; }
+  .vision-box ul { margin: 8px 0 12px 24px; }
+  .vision-box ul li { margin-bottom: 6px; }
+  .vision-box .tag {
+    display: inline-block; background: #EBF3FB; color: #1F3864;
+    border-radius: 6px; padding: 2px 10px; font-size: 12px;
+    font-weight: bold; margin-right: 6px;
+  }
+
+  /* ── ERD ── */
+  .erd-wrap {
+    background: white; border-radius: 12px; padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08); max-width: 1100px;
+    margin: 0 auto 16px;
+  }
+
+  /* ── ACTIVITY DIAGRAMS ── */
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; max-width: 1100px; margin: 0 auto;
+  }
+  .card {
+    background: white; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .card h2 {
+    text-align: center; font-size: 13px; color: #1F3864;
+    margin-bottom: 18px; border-bottom: 2px solid #e0e8f5;
+    padding-bottom: 10px;
+  }
+  svg { display: block; margin: 0 auto; }
+  .lane-bg-user { fill: #EBF3FB; }
+  .lane-bg-system { fill: #EBF9EE; }
+
+  /* ── LEGEND ── */
+  .legend {
+    max-width: 1100px; margin: 24px auto 0; background: white;
+    border-radius: 12px; padding: 14px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    display: flex; gap: 24px; align-items: center;
+    flex-wrap: wrap; font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     VISION
+═══════════════════════════════════════════════════ -->
+<div class="section-title">Vision</div>
+
+<div class="vision-box">
+  <p>
+    Task Manager je webová aplikace inspirovaná nástrojem Trello, která umožňuje uživatelům
+    vizuálně organizovat úkoly pomocí přetahování (<strong>drag &amp; drop</strong>).
+    Úkoly jsou zobrazeny jako karty rozdělené do sloupců podle kategorie.
+    Aplikace je určena pro kohokoli, kdo potřebuje přehledný a intuitivní nástroj
+    pro správu každodenních úkolů — bez nutnosti registrace.
+  </p>
+  <p>Aplikace je postavena na dvou základních entitách:</p>
+  <ul>
+    <li><span class="tag">Task</span> Karta obsahující název, volitelný popis, termín splnění a stav dokončení.</li>
+    <li><span class="tag">Category</span> Sloupec na nástěnce, do kterého patří úkoly. Například: <em>Nevyřízeno, Probíhá, Hotovo</em>.</li>
+  </ul>
+  <p>
+    Každý úkol patří do jedné kategorie. Uživatel může úkoly přetahovat mezi sloupci,
+    čímž mění jejich kategorii. Aplikace nevyžaduje registraci ani přihlášení —
+    kdokoli ji může okamžitě začít používat.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     ERD DIAGRAM
+═══════════════════════════════════════════════════ -->
+<div class="subsection-title" style="max-width:1100px;margin:0 auto 10px;">Entity Relationship Diagram</div>
+<div class="erd-wrap">
+  <svg width="700" height="180" viewBox="0 0 700 180">
+    <!-- CATEGORY box -->
+    <rect x="40" y="20" width="180" height="140" rx="8" fill="#D6E4F7" stroke="#2E74B5" stroke-width="1.5"/>
+    <rect x="40" y="20" width="180" height="36" rx="8" fill="#2E74B5"/>
+    <rect x="40" y="44" width="180" height="12" fill="#2E74B5"/>
+    <text x="130" y="44" text-anchor="middle" fill="white" font-size="14" font-weight="bold">CATEGORY</text>
+    <line x1="40" y1="56" x2="220" y2="56" stroke="#2E74B5" stroke-width="1"/>
+    <text x="56" y="76" fill="#1F3864" font-size="12">• id</text>
+    <text x="100" y="76" fill="#888" font-size="10" font-style="italic">(Primary Key)</text>
+    <text x="56" y="96" fill="#333" font-size="12">• name</text>
+    <text x="56" y="116" fill="#333" font-size="12">• color</text>
+
+    <!-- Arrow -->
+    <line x1="220" y1="90" x2="320" y2="90" stroke="#555" stroke-width="2"/>
+    <polygon points="320,85 335,90 320,95" fill="#555"/>
+    <text x="248" y="82" text-anchor="middle" fill="#1F3864" font-size="13" font-weight="bold">1</text>
+    <text x="248" y="108" text-anchor="middle" fill="#888" font-size="11">has many</text>
+    <text x="310" y="82" text-anchor="middle" fill="#1F3864" font-size="13" font-weight="bold">N</text>
+
+    <!-- TASK box -->
+    <rect x="335" y="20" width="200" height="140" rx="8" fill="#D6EFD8" stroke="#2E7A3C" stroke-width="1.5"/>
+    <rect x="335" y="20" width="200" height="36" rx="8" fill="#2E7A3C"/>
+    <rect x="335" y="44" width="200" height="12" fill="#2E7A3C"/>
+    <text x="435" y="44" text-anchor="middle" fill="white" font-size="14" font-weight="bold">TASK</text>
+    <line x1="335" y1="56" x2="535" y2="56" stroke="#2E7A3C" stroke-width="1"/>
+    <text x="351" y="76" fill="#1A5C1A" font-size="12">• id</text>
+    <text x="390" y="76" fill="#888" font-size="10" font-style="italic">(Primary Key)</text>
+    <text x="351" y="96" fill="#333" font-size="12">• name</text>
+    <text x="351" y="112" fill="#333" font-size="12">• description</text>
+    <text x="351" y="128" fill="#333" font-size="12">• deadline</text>
+    <text x="351" y="144" fill="#333" font-size="12">• status &amp; category_id</text>
+    <text x="460" y="144" fill="#888" font-size="10" font-style="italic">(FK)</text>
+
+    <!-- Caption -->
+    <text x="350" y="172" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Obrázek 1 – Category má mnoho Tasks (vztah 1:N)</text>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     ACTIVITY DIAGRAMS
+═══════════════════════════════════════════════════ -->
+<div class="section-title">Activity Diagrams – All 4 User Stories</div>
+
+<div class="grid">
+
+  <!-- US1 -->
+  <div class="card">
+    <h2>User Story 1 – Create a New Task</h2>
+    <svg width="340" height="410" viewBox="0 0 340 410">
+      <defs>
+        <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#555"/></marker>
+        <marker id="aG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2E7A3C"/></marker>
+        <marker id="aR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#e74c3c"/></marker>
+      </defs>
+      <rect x="10" y="30" width="150" height="365" rx="6" class="lane-bg-user"/>
+      <rect x="180" y="30" width="150" height="365" rx="6" class="lane-bg-system"/>
+      <text x="85" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E74B5">👤 User</text>
+      <text x="255" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7A3C">⚙️ System</text>
+
+      <circle cx="85" cy="58" r="11" fill="#1F3864"/>
+      <line x1="85" y1="69" x2="85" y2="93" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="93" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="114" text-anchor="middle" fill="white" font-size="11">Click 'Přidat úkol'</text>
+      <line x1="150" y1="110" x2="180" y2="110" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="93" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="108" text-anchor="middle" fill="white" font-size="10">Zobrazí formulář</text>
+      <text x="255" y="120" text-anchor="middle" fill="white" font-size="10">Název, Popis, Termín</text>
+      <line x1="190" y1="110" x2="150" y2="155" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="145" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="160" text-anchor="middle" fill="white" font-size="10">Vyplní název,</text>
+      <text x="85" y="172" text-anchor="middle" fill="white" font-size="10">termín splnění</text>
+      <line x1="85" y1="179" x2="85" y2="203" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="203" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="224" text-anchor="middle" fill="white" font-size="11">Click 'Uložit'</text>
+      <line x1="150" y1="220" x2="180" y2="220" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <polygon points="255,203 298,220 255,237 212,220" fill="#F0A500"/>
+      <text x="255" y="224" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Validace?</text>
+
+      <line x1="298" y1="220" x2="318" y2="220" stroke="#e74c3c" stroke-width="1.5"/>
+      <line x1="318" y1="220" x2="318" y2="268" stroke="#e74c3c" stroke-width="1.5"/>
+      <line x1="318" y1="268" x2="300" y2="268" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#aR)"/>
+      <rect x="190" y="253" width="110" height="30" rx="7" fill="#e74c3c"/>
+      <text x="245" y="272" text-anchor="middle" fill="white" font-size="10">Zobrazí chybu</text>
+      <text x="310" y="213" fill="#e74c3c" font-size="9">chyba</text>
+
+      <line x1="255" y1="237" x2="255" y2="298" stroke="#2E7A3C" stroke-width="1.5" marker-end="url(#aG)"/>
+      <text x="260" y="270" fill="#2E7A3C" font-size="9">ok</text>
+      <rect x="190" y="298" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="313" text-anchor="middle" fill="white" font-size="10">Uloží úkol, zobrazí</text>
+      <text x="255" y="325" text-anchor="middle" fill="white" font-size="10">kartu na nástěnce</text>
+      <line x1="190" y1="315" x2="118" y2="315" stroke="#555" stroke-width="1.5"/>
+      <line x1="85" y1="315" x2="85" y2="355" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <circle cx="85" cy="371" r="9" fill="none" stroke="#1F3864" stroke-width="2.5"/>
+      <circle cx="85" cy="371" r="5" fill="#1F3864"/>
+    </svg>
+  </div>
+
+  <!-- US2: Drag & Drop -->
+  <div class="card">
+    <h2>User Story 2 – Move Task (Drag &amp; Drop)</h2>
+    <svg width="340" height="410" viewBox="0 0 340 410">
+      <rect x="10" y="30" width="150" height="365" rx="6" class="lane-bg-user"/>
+      <rect x="180" y="30" width="150" height="365" rx="6" class="lane-bg-system"/>
+      <text x="85" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E74B5">👤 User</text>
+      <text x="255" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7A3C">⚙️ System</text>
+
+      <circle cx="85" cy="58" r="11" fill="#1F3864"/>
+      <line x1="85" y1="69" x2="85" y2="93" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="93" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="108" text-anchor="middle" fill="white" font-size="10">Uchopí kartu</text>
+      <text x="85" y="120" text-anchor="middle" fill="white" font-size="10">(klik + podržení)</text>
+      <line x1="150" y1="110" x2="180" y2="110" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="93" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="108" text-anchor="middle" fill="white" font-size="10">Zvýrazní možné</text>
+      <text x="255" y="120" text-anchor="middle" fill="white" font-size="10">cílové sloupce</text>
+      <line x1="190" y1="110" x2="150" y2="155" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="145" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="160" text-anchor="middle" fill="white" font-size="10">Přetáhne kartu</text>
+      <text x="85" y="172" text-anchor="middle" fill="white" font-size="10">nad cílový sloupec</text>
+      <line x1="150" y1="162" x2="180" y2="162" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="145" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="160" text-anchor="middle" fill="white" font-size="10">Zvýrazní cílový</text>
+      <text x="255" y="172" text-anchor="middle" fill="white" font-size="10">sloupec</text>
+      <line x1="190" y1="162" x2="150" y2="207" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="197" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="212" text-anchor="middle" fill="white" font-size="10">Pustí kartu</text>
+      <text x="85" y="224" text-anchor="middle" fill="white" font-size="10">do sloupce</text>
+      <line x1="150" y1="214" x2="180" y2="214" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="197" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="212" text-anchor="middle" fill="white" font-size="10">Aktualizuje kategorii</text>
+      <text x="255" y="224" text-anchor="middle" fill="white" font-size="10">úkolu v databázi</text>
+      <line x1="255" y1="231" x2="255" y2="255" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="255" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="270" text-anchor="middle" fill="white" font-size="10">Zobrazí kartu</text>
+      <text x="255" y="282" text-anchor="middle" fill="white" font-size="10">v novém sloupci</text>
+      <line x1="190" y1="272" x2="150" y2="272" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="255" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="270" text-anchor="middle" fill="white" font-size="10">Vidí kartu</text>
+      <text x="85" y="282" text-anchor="middle" fill="white" font-size="10">v novém sloupci ✓</text>
+      <line x1="85" y1="289" x2="85" y2="355" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <circle cx="85" cy="371" r="9" fill="none" stroke="#1F3864" stroke-width="2.5"/>
+      <circle cx="85" cy="371" r="5" fill="#1F3864"/>
+    </svg>
+  </div>
+
+  <!-- US3 -->
+  <div class="card">
+    <h2>User Story 3 – Mark Task as Completed</h2>
+    <svg width="340" height="410" viewBox="0 0 340 410">
+      <rect x="10" y="30" width="150" height="365" rx="6" class="lane-bg-user"/>
+      <rect x="180" y="30" width="150" height="365" rx="6" class="lane-bg-system"/>
+      <text x="85" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E74B5">👤 User</text>
+      <text x="255" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7A3C">⚙️ System</text>
+
+      <circle cx="85" cy="58" r="11" fill="#1F3864"/>
+      <line x1="85" y1="69" x2="85" y2="93" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="93" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="108" text-anchor="middle" fill="white" font-size="10">Najde kartu úkolu</text>
+      <text x="85" y="120" text-anchor="middle" fill="white" font-size="10">na nástěnce</text>
+      <line x1="85" y1="127" x2="85" y2="151" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="151" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="166" text-anchor="middle" fill="white" font-size="10">Klikne 'Označit</text>
+      <text x="85" y="178" text-anchor="middle" fill="white" font-size="10">jako hotové'</text>
+      <line x1="150" y1="168" x2="180" y2="168" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="151" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="166" text-anchor="middle" fill="white" font-size="10">Aktualizuje stav</text>
+      <text x="255" y="178" text-anchor="middle" fill="white" font-size="10">→ 'Hotovo' v DB</text>
+      <line x1="255" y1="185" x2="255" y2="209" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="209" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="224" text-anchor="middle" fill="white" font-size="10">Zobrazí přeškrtnutí</text>
+      <text x="255" y="236" text-anchor="middle" fill="white" font-size="10">+ zelené ✓ na kartě</text>
+      <line x1="190" y1="226" x2="150" y2="226" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="209" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="224" text-anchor="middle" fill="white" font-size="10">Vidí kartu označenou</text>
+      <text x="85" y="236" text-anchor="middle" fill="white" font-size="10">jako dokončenou ✓</text>
+      <line x1="85" y1="243" x2="85" y2="355" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <circle cx="85" cy="371" r="9" fill="none" stroke="#1F3864" stroke-width="2.5"/>
+      <circle cx="85" cy="371" r="5" fill="#1F3864"/>
+    </svg>
+  </div>
+
+  <!-- US4 -->
+  <div class="card">
+    <h2>User Story 4 – Delete a Task</h2>
+    <svg width="340" height="410" viewBox="0 0 340 410">
+      <rect x="10" y="30" width="150" height="365" rx="6" class="lane-bg-user"/>
+      <rect x="180" y="30" width="150" height="365" rx="6" class="lane-bg-system"/>
+      <text x="85" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E74B5">👤 User</text>
+      <text x="255" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7A3C">⚙️ System</text>
+
+      <circle cx="85" cy="58" r="11" fill="#1F3864"/>
+      <line x1="85" y1="69" x2="85" y2="93" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="93" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="108" text-anchor="middle" fill="white" font-size="10">Najde kartu,</text>
+      <text x="85" y="120" text-anchor="middle" fill="white" font-size="10">klikne 🗑 Smazat</text>
+      <line x1="150" y1="110" x2="180" y2="110" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="93" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="108" text-anchor="middle" fill="white" font-size="10">Zobrazí potvrzovací</text>
+      <text x="255" y="120" text-anchor="middle" fill="white" font-size="10">dialog</text>
+      <line x1="255" y1="127" x2="255" y2="155" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <polygon points="255,155 298,172 255,189 212,172" fill="#F0A500"/>
+      <text x="255" y="176" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Potvrdit?</text>
+
+      <line x1="212" y1="172" x2="150" y2="172" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#aR)"/>
+      <rect x="20" y="155" width="130" height="34" rx="7" fill="#e74c3c"/>
+      <text x="85" y="170" text-anchor="middle" fill="white" font-size="10">Zruší — karta</text>
+      <text x="85" y="182" text-anchor="middle" fill="white" font-size="10">zůstane na nástěnce</text>
+      <text x="160" y="165" fill="#e74c3c" font-size="9">zrušit</text>
+
+      <line x1="255" y1="189" x2="255" y2="217" stroke="#2E7A3C" stroke-width="1.5" marker-end="url(#aG)"/>
+      <text x="260" y="207" fill="#2E7A3C" font-size="9">potvrdit</text>
+
+      <rect x="190" y="217" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="232" text-anchor="middle" fill="white" font-size="10">Odstraní úkol</text>
+      <text x="255" y="244" text-anchor="middle" fill="white" font-size="10">z databáze</text>
+      <line x1="255" y1="251" x2="255" y2="275" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="190" y="275" width="130" height="34" rx="7" fill="#2E7A3C"/>
+      <text x="255" y="290" text-anchor="middle" fill="white" font-size="10">Aktualizuje nástěnku</text>
+      <text x="255" y="302" text-anchor="middle" fill="white" font-size="10">— karta odstraněna</text>
+      <line x1="190" y1="292" x2="150" y2="292" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <rect x="20" y="275" width="130" height="34" rx="7" fill="#2E74B5"/>
+      <text x="85" y="290" text-anchor="middle" fill="white" font-size="10">Karta již není</text>
+      <text x="85" y="302" text-anchor="middle" fill="white" font-size="10">viditelná</text>
+      <line x1="85" y1="309" x2="85" y2="355" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+      <circle cx="85" cy="371" r="9" fill="none" stroke="#1F3864" stroke-width="2.5"/>
+      <circle cx="85" cy="371" r="5" fill="#1F3864"/>
+    </svg>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <strong>Legend:</strong>
+  <span><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#1F3864"/></svg> Start</span>
+  <span><svg width="36" height="16"><rect x="0" y="1" width="36" height="14" rx="4" fill="#2E74B5"/></svg> User action</span>
+  <span><svg width="36" height="16"><rect x="0" y="1" width="36" height="14" rx="4" fill="#2E7A3C"/></svg> System action</span>
+  <span><svg width="28" height="16"><polygon points="14,0 28,8 14,16 0,8" fill="#F0A500"/></svg> Decision</span>
+  <span><svg width="36" height="16"><rect x="0" y="1" width="36" height="14" rx="4" fill="#e74c3c"/></svg> Error / Cancel</span>
+  <span><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="none" stroke="#1F3864" stroke-width="2"/><circle cx="9" cy="9" r="4" fill="#1F3864"/></svg> End</span>
+</div>
+
+</body>
+</html>
