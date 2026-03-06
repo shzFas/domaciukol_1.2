@@ -1,3 +1,7 @@
+# For better visualization
+
+https://shzfas.github.io/domaciukol_1.2/
+
 # 📋 Task Manager — Trello-style App
 
 > Webová aplikace inspirovaná Trellem pro vizuální správu úkolů pomocí drag & drop.  
