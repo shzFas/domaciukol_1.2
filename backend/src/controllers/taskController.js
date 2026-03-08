@@ -9,3 +9,14 @@ export const createTask = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const getTasks = async (req, res) => {
+  try {
+    const { category_id } = req.query;
+    const filter = category_id ? { category_id } : {};
+    const tasks = await Task.find(filter).populate("category_id", "name color");
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
