@@ -4,7 +4,7 @@ import {
   getCategories,
   getCategoryById,
   updateCategory,
-  deleteCategory
+  deleteCategory,
 } from "../controllers/categoryController.js";
 
 const router = Router();
