@@ -1,6 +1,8 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
+import categoryRoutes from "./src/routes/categoryRoutes.js";
 
 dotenv.config();
 
@@ -8,12 +10,15 @@ const app = express();
 const port = process.env.PORT || 4444;
 
 connectDB();
+app.use(cors());
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
   res.send("Сервер запущен");
-});
+}); */
+
+app.use("/api/categories", categoryRoutes)
 
 // глобальный обработчик ошибок
 app.use((err, req, res, next) => {
