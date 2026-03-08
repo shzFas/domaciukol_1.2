@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import categoryRoutes from "./src/routes/categoryRoutes.js";
+import taskRoutes from "./src/routes/taskRoutes.js";
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ app.use(express.json());
   res.send("Сервер запущен");
 }); */
 
-app.use("/api/categories", categoryRoutes)
+app.use("/api/categories", categoryRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // глобальный обработчик ошибок
 app.use((err, req, res, next) => {
