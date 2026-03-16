@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "../Modal";
 import Input from "../Input";
-import Textarea from "../Textarea/Textarea.jsx";
+import Textarea from "../Textarea";
 import Button from "../Button";
 import styles from "./TaskForm.module.css";
 
