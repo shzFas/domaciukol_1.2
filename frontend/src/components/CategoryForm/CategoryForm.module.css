@@ -1,0 +1,25 @@
+.colorField { display: flex; flex-direction: column; gap: 8px; }
+
+.label { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
+
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.swatch:hover { transform: scale(1.15); }
+.selected { border-color: var(--color-text); transform: scale(1.15); }
+
+.submitError {
+  font-size: 13px;
+  color: var(--color-danger);
+  text-align: center;
+  padding: 8px;
+  background: #fce8e6;
+  border-radius: var(--radius-sm);
+}

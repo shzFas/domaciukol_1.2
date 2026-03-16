@@ -1,18 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BoardPage } from "./pages/BoardPage";
-import { NotFoundPage } from "./pages/NotFoundPage";
+import BoardPage from "./pages/BoardPage";
+import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 
-function App() {
+export default function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<BoardPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BoardPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

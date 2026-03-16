@@ -1,0 +1,31 @@
+.board {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+  overflow-x: auto;
+  align-items: flex-start;
+  min-height: calc(100vh - 64px);
+}
+
+.addColumn {
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 24px;
+  font-size: 14px;
+  font-family: var(--font);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 200px;
+  height: 56px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  align-self: flex-start;
+}
+
+.addColumn:hover {
+  background: white;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
