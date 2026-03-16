@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Button from "../Button/Button.jsx"
 import styles from "./Modal.module.css";
 
 export default function Modal({
