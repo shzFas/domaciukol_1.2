@@ -81,7 +81,7 @@ export const BoardPage = ({
       onDragEnd={handleDragEnd}
     >
       <div className={styles.board}>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <Column
             key={category._id}
             category={category}
