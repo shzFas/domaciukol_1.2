@@ -7,7 +7,6 @@ import {
   useSensors,
   closestCorners,
 } from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 import Column from "../Column/Column.jsx";
 import TaskCard from "../TaskCard/TaskCard.jsx";
 import styles from "./Board.module.css";
