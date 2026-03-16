@@ -14,7 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch index.js",
     "start": "node index.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "seed:clear": "node clear.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
