@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import Modal from "../Modal/Modal.jsx";
-import Input from "../Input/Input.jsx";
+import Modal from "../Modal";
+import Input from "../Input";
 import Textarea from "../Textarea/Textarea.jsx";
-import Button from "../Button/Button.jsx";
+import Button from "../Button";
 import styles from "./TaskForm.module.css";
 
 const EMPTY = { name: "", description: "", deadline: "", status: "pending", category_id: "" };

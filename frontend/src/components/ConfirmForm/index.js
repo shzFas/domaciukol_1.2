@@ -1,5 +1,5 @@
-import Modal from "../Modal/Modal.jsx";
-import Button from "../Button/Button.jsx";
+import Modal from "../Modal";
+import Button from "../Button";
 
 export default function ConfirmForm({ isOpen, onClose, onConfirm, title, message, loading }) {
   return (

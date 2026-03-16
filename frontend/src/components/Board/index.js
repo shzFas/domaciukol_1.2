@@ -7,8 +7,8 @@ import {
   useSensors,
   closestCorners,
 } from "@dnd-kit/core";
-import Column from "../Column/Column.jsx";
-import TaskCard from "../TaskCard/TaskCard.jsx";
+import Column from "../Column";
+import TaskCard from "../TaskCard";
 import styles from "./Board.module.css";
 
 export default function Board({

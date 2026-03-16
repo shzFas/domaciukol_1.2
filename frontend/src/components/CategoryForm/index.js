@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Modal from "../Modal/Modal.jsx";
-import Input from "../Input/Input.jsx";
-import Button from "../Button/Button.jsx";
+import Modal from "../Modal";
+import Input from "../Input";
+import Button from "../Button";
 import styles from "./CategoryForm.module.css";
 
 const COLORS = ["#1a73e8", "#e53935", "#43a047", "#fb8c00", "#8e24aa", "#00acc1", "#6d4c41", "#546e7a"];
