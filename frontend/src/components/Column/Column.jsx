@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import TaskCard from "./TaskCard.jsx";
+import TaskCard from "../TaskCard/TaskCard.jsx";
 import styles from "./Column.module.css";
 
 export default function Column({
