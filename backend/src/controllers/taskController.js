@@ -3,13 +3,7 @@ import Task from "../models/Task.js";
 export const createTask = async (req, res) => {
   try {
     const { name, description, deadline, status, category_id } = req.body;
-    const task = await Task.create({
-      name,
-      description,
-      deadline,
-      status,
-      category_id,
-    });
+    const task = await Task.create({ name, description, deadline, status, category_id });
     res.status(201).json(task);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -29,10 +23,7 @@ export const getTasks = async (req, res) => {
 
 export const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id).populate(
-      "category_id",
-      "name color",
-    );
+    const task = await Task.findById(req.params.id).populate("category_id", "name color");
     if (!task) return res.status(404).json({ message: "Task not found" });
     res.json(task);
   } catch (error) {
@@ -46,7 +37,7 @@ export const updateTask = async (req, res) => {
     const task = await Task.findByIdAndUpdate(
       req.params.id,
       { name, description, deadline, status, category_id },
-      { new: true, runValidators: true },
+      { returnDocument: 'after', runValidators: true }
     );
     if (!task) return res.status(404).json({ message: "Task not found" });
     res.json(task);
