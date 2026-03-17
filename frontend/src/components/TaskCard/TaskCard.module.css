@@ -8,7 +8,9 @@
   gap: 8px;
   cursor: grab;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.15s, transform 0.15s;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
   user-select: none;
 }
 
@@ -18,7 +20,7 @@
 
 .dragging {
   cursor: grabbing;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
 .done {
@@ -38,8 +40,12 @@
   margin-top: 2px;
 }
 
-.status.done  { color: var(--color-success); }
-.status.pending { color: var(--color-text-secondary); }
+.status.done {
+  color: var(--color-success);
+}
+.status.pending {
+  color: var(--color-text-secondary);
+}
 
 .name {
   font-size: 14px;

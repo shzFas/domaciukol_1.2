@@ -1,0 +1,55 @@
+{
+  "board": {
+    "title": "Task Manager",
+    "addColumn": "+ Добавить колонку",
+    "noTasks": "Нет задач",
+    "addTask": "+ Добавить задачу",
+    "loading": "Загрузка...",
+    "error": "Не удалось загрузить данные. Проверьте подключение к серверу.",
+    "retry": "Повторить"
+  },
+  "task": {
+    "create": "Новая задача",
+    "edit": "Редактировать задачу",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "name": "Название",
+    "namePlaceholder": "Введите название задачи",
+    "description": "Описание",
+    "descriptionPlaceholder": "Подробное описание (необязательно)",
+    "deadline": "Дедлайн",
+    "status": "Статус",
+    "statusPending": "● Невыполнено",
+    "statusDone": "✓ Выполнено",
+    "category": "Категория",
+    "categoryPlaceholder": "— Выберите категорию —",
+    "deleteTitle": "Удалить задачу",
+    "deleteMessage": "Удалить задачу «{{name}}»? Это действие нельзя отменить."
+  },
+  "category": {
+    "create": "Новая колонка",
+    "edit": "Редактировать колонку",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "name": "Название",
+    "namePlaceholder": "Например: В работе",
+    "color": "Цвет",
+    "colorPlaceholder": "#1a73e8",
+    "deleteTitle": "Удалить колонку",
+    "deleteMessage": "Удалить колонку «{{name}}»? Все задачи в ней останутся без категории."
+  },
+  "validation": {
+    "nameRequired": "Название обязательно",
+    "nameMaxLength": "Максимум {{max}} символов",
+    "categoryRequired": "Выберите категорию",
+    "invalidDate": "Некорректная дата",
+    "invalidHex": "Некорректный HEX цвет",
+    "serverError": "Ошибка сервера"
+  },
+  "confirm": {
+    "title": "Подтверждение",
+    "message": "Вы уверены? Это действие нельзя отменить."
+  }
+}

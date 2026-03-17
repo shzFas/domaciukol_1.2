@@ -1,13 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import Board from "../../components/Board";
 import TaskForm from "../../components/TaskForm";
 import CategoryForm from "../../components/CategoryForm";
 import ConfirmForm from "../../components/ConfirmForm";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import categoryApi from "../../api/categoryAPI.js";
 import taskApi from "../../api/taskAPI.js";
-import styles from "./Board.module.css";
+import styles from "./BoardPage.module.css";
 
 export default function BoardPage() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,30 +24,22 @@ export default function BoardPage() {
   const fetchAll = useCallback(async () => {
     try {
       setLoading(true);
-      const [cats, tsks] = await Promise.all([
-        categoryApi.getAll(),
-        taskApi.getAll(),
-      ]);
+      const [cats, tsks] = await Promise.all([categoryApi.getAll(), taskApi.getAll()]);
       setCategories(cats.data);
       setTasks(tsks.data);
       setError(null);
     } catch {
-      setError("Не удалось загрузить данные. Проверьте подключение к серверу.");
+      setError(t("board.error"));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
-  const handleAddTask = (categoryId) =>
-    setTaskModal({ open: true, task: null, categoryId });
-
-  const handleEditTask = (task) =>
-    setTaskModal({ open: true, task, categoryId: null });
-
-  const handleDeleteTask = (task) =>
-    setConfirmModal({ open: true, target: task, type: "task" });
+  const handleAddTask = (categoryId) => setTaskModal({ open: true, task: null, categoryId });
+  const handleEditTask = (task) => setTaskModal({ open: true, task, categoryId: null });
+  const handleDeleteTask = (task) => setConfirmModal({ open: true, target: task, type: "task" });
 
   const handleTaskSubmit = async (fields) => {
     if (taskModal.task) {
@@ -59,11 +54,8 @@ export default function BoardPage() {
     const activeCategoryId =
       typeof task.category_id === "object" ? task.category_id._id : task.category_id;
     if (activeCategoryId === newCategoryId) return;
-
     setTasks((prev) =>
-      prev.map((t) =>
-        t._id === task._id ? { ...t, category_id: newCategoryId } : t
-      )
+      prev.map((t) => t._id === task._id ? { ...t, category_id: newCategoryId } : t)
     );
     try {
       await taskApi.update(task._id, { ...task, category_id: newCategoryId });
@@ -72,14 +64,10 @@ export default function BoardPage() {
     }
   };
 
-  const handleAddCategory = () =>
-    setCategoryModal({ open: true, category: null });
-
-  const handleEditCategory = (category) =>
-    setCategoryModal({ open: true, category });
-
-  const handleDeleteCategory = (category) =>
-    setConfirmModal({ open: true, target: category, type: "category" });
+  const handleCategoryReorder = (reordered) => setCategories(reordered);
+  const handleAddCategory = () => setCategoryModal({ open: true, category: null });
+  const handleEditCategory = (category) => setCategoryModal({ open: true, category });
+  const handleDeleteCategory = (category) => setConfirmModal({ open: true, target: category, type: "category" });
 
   const handleCategorySubmit = async (fields) => {
     if (categoryModal.category) {
@@ -109,7 +97,7 @@ export default function BoardPage() {
     return (
       <div className={styles.center}>
         <div className={styles.spinner} />
-        <p>Загрузка...</p>
+        <p>{t("board.loading")}</p>
       </div>
     );
   }
@@ -118,7 +106,7 @@ export default function BoardPage() {
     return (
       <div className={styles.center}>
         <p className={styles.error}>{error}</p>
-        <button className={styles.retry} onClick={fetchAll}>Повторить</button>
+        <button className={styles.retry} onClick={fetchAll}>{t("board.retry")}</button>
       </div>
     );
   }
@@ -126,7 +114,8 @@ export default function BoardPage() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.logo}>📋 Task Manager</h1>
+        <h1 className={styles.logo}>📋 {t("board.title")}</h1>
+        <LanguageSwitcher />
       </header>
 
       <Board
@@ -139,6 +128,7 @@ export default function BoardPage() {
         onDeleteCategory={handleDeleteCategory}
         onAddCategory={handleAddCategory}
         onTaskDrop={handleTaskDrop}
+        onCategoryReorder={handleCategoryReorder}
       />
 
       <TaskForm
@@ -162,12 +152,11 @@ export default function BoardPage() {
         onClose={() => setConfirmModal({ open: false, target: null, type: null })}
         onConfirm={handleConfirm}
         loading={confirmLoading}
-        title={confirmModal.type === "task" ? "Удалить задачу" : "Удалить колонку"}
-        message={
-          confirmModal.type === "task"
-            ? `Удалить задачу «${confirmModal.target?.name}»? Это действие нельзя отменить.`
-            : `Удалить колонку «${confirmModal.target?.name}»? Все задачи в ней останутся без категории.`
-        }
+        title={t(confirmModal.type === "task" ? "task.deleteTitle" : "category.deleteTitle")}
+        message={t(
+          confirmModal.type === "task" ? "task.deleteMessage" : "category.deleteMessage",
+          { name: confirmModal.target?.name }
+        )}
       />
     </>
   );

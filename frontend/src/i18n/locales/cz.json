@@ -1,0 +1,55 @@
+{
+  "board": {
+    "title": "Task Manager",
+    "addColumn": "+ Přidat sloupec",
+    "noTasks": "Žádné úkoly",
+    "addTask": "+ Přidat úkol",
+    "loading": "Načítání...",
+    "error": "Nepodařilo se načíst data. Zkontrolujte připojení k serveru.",
+    "retry": "Zkusit znovu"
+  },
+  "task": {
+    "create": "Nový úkol",
+    "edit": "Upravit úkol",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "delete": "Smazat",
+    "name": "Název",
+    "namePlaceholder": "Zadejte název úkolu",
+    "description": "Popis",
+    "descriptionPlaceholder": "Podrobný popis (nepovinné)",
+    "deadline": "Termín",
+    "status": "Stav",
+    "statusPending": "● Nevyřízeno",
+    "statusDone": "✓ Vyřízeno",
+    "category": "Kategorie",
+    "categoryPlaceholder": "— Vyberte kategorii —",
+    "deleteTitle": "Smazat úkol",
+    "deleteMessage": "Smazat úkol «{{name}}»? Tuto akci nelze vrátit."
+  },
+  "category": {
+    "create": "Nový sloupec",
+    "edit": "Upravit sloupec",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "delete": "Smazat",
+    "name": "Název",
+    "namePlaceholder": "Například: Probíhá",
+    "color": "Barva",
+    "colorPlaceholder": "#1a73e8",
+    "deleteTitle": "Smazat sloupec",
+    "deleteMessage": "Smazat sloupec «{{name}}»? Všechny úkoly v něm zůstanou bez kategorie."
+  },
+  "validation": {
+    "nameRequired": "Název je povinný",
+    "nameMaxLength": "Maximum {{max}} znaků",
+    "categoryRequired": "Vyberte kategorii",
+    "invalidDate": "Neplatné datum",
+    "invalidHex": "Neplatná HEX barva",
+    "serverError": "Chyba serveru"
+  },
+  "confirm": {
+    "title": "Potvrzení",
+    "message": "Opravdu chcete pokračovat? Tuto akci nelze vrátit."
+  }
+}

@@ -30,7 +30,11 @@ export default function Modal({
       >
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
-          <button className={styles.close} onClick={onClose} aria-label="Закрыть">
+          <button
+            className={styles.close}
+            onClick={onClose}
+            aria-label="Закрыть"
+          >
             ✕
           </button>
         </div>

@@ -1,0 +1,55 @@
+{
+  "board": {
+    "title": "Task Manager",
+    "addColumn": "+ Add column",
+    "noTasks": "No tasks",
+    "addTask": "+ Add task",
+    "loading": "Loading...",
+    "error": "Failed to load data. Check your server connection.",
+    "retry": "Retry"
+  },
+  "task": {
+    "create": "New task",
+    "edit": "Edit task",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "name": "Name",
+    "namePlaceholder": "Enter task name",
+    "description": "Description",
+    "descriptionPlaceholder": "Detailed description (optional)",
+    "deadline": "Deadline",
+    "status": "Status",
+    "statusPending": "● Pending",
+    "statusDone": "✓ Done",
+    "category": "Category",
+    "categoryPlaceholder": "— Select category —",
+    "deleteTitle": "Delete task",
+    "deleteMessage": "Delete task «{{name}}»? This action cannot be undone."
+  },
+  "category": {
+    "create": "New column",
+    "edit": "Edit column",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "name": "Name",
+    "namePlaceholder": "E.g.: In Progress",
+    "color": "Color",
+    "colorPlaceholder": "#1a73e8",
+    "deleteTitle": "Delete column",
+    "deleteMessage": "Delete column «{{name}}»? All tasks in it will remain without a category."
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "nameMaxLength": "Maximum {{max}} characters",
+    "categoryRequired": "Please select a category",
+    "invalidDate": "Invalid date",
+    "invalidHex": "Invalid HEX color",
+    "serverError": "Server error"
+  },
+  "confirm": {
+    "title": "Confirmation",
+    "message": "Are you sure? This action cannot be undone."
+  }
+}

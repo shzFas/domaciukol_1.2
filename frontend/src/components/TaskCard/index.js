@@ -3,8 +3,14 @@ import { CSS } from "@dnd-kit/utilities";
 import styles from "./TaskCard.module.css";
 
 export default function TaskCard({ task, onEdit, onDelete }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: task._id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -45,14 +51,20 @@ export default function TaskCard({ task, onEdit, onDelete }) {
       <div className={styles.actions}>
         <button
           className={styles.actionBtn}
-          onClick={(e) => { e.stopPropagation(); onEdit(task); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(task);
+          }}
           aria-label="Редактировать"
         >
           ✏️
         </button>
         <button
           className={`${styles.actionBtn} ${styles.deleteBtn}`}
-          onClick={(e) => { e.stopPropagation(); onDelete(task); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(task);
+          }}
           aria-label="Удалить"
         >
           🗑
