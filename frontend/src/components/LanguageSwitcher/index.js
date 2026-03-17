@@ -5,7 +5,7 @@ import styles from "./LanguageSwitcher.module.css";
 const LANGUAGES = [
   { code: "en", label: "EN", flag: "🇬🇧" },
   { code: "ru", label: "RU", flag: "🇷🇺" },
-  { code: "cs", label: "CS", flag: "🇨🇿" },
+  { code: "cz", label: "CZ", flag: "🇨🇿" },
 ];
 
 export default function LanguageSwitcher() {
