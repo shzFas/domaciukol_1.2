@@ -1,0 +1,91 @@
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-column-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.trigger:hover {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+.arrow {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  transition: transform 0.15s;
+  display: inline-block;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  z-index: 200;
+  min-width: 120px;
+  animation: fadeIn 0.12s ease;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 14px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.12s;
+  text-align: left;
+}
+
+.option:hover {
+  background: var(--color-column-bg);
+}
+
+.active {
+  color: var(--color-primary);
+  background: #e8f0fe;
+}
+
+.active:hover {
+  background: #d2e3fc;
+}
+
+.check {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--color-primary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
