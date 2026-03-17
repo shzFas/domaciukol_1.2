@@ -13,7 +13,8 @@ export default function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  const current = LANGUAGES.find((l) => l.code === i18n.language) || LANGUAGES[0];
+  const current =
+    LANGUAGES.find((l) => l.code === i18n.language) || LANGUAGES[0];
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -33,7 +34,9 @@ export default function LanguageSwitcher() {
       <button className={styles.trigger} onClick={() => setOpen((o) => !o)}>
         <span>{current.flag}</span>
         <span>{current.label}</span>
-        <span className={`${styles.arrow} ${open ? styles.arrowOpen : ""}`}>▾</span>
+        <span className={`${styles.arrow} ${open ? styles.arrowOpen : ""}`}>
+          ▾
+        </span>
       </button>
 
       {open && (
@@ -46,7 +49,9 @@ export default function LanguageSwitcher() {
             >
               <span>{lang.flag}</span>
               <span>{lang.label}</span>
-              {i18n.language === lang.code && <span className={styles.check}>✓</span>}
+              {i18n.language === lang.code && (
+                <span className={styles.check}>✓</span>
+              )}
             </button>
           ))}
         </div>

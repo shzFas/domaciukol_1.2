@@ -6,7 +6,10 @@
   border-radius: var(--radius-sm);
   font-family: var(--font);
   font-weight: 500;
-  transition: background 0.15s, box-shadow 0.15s, opacity 0.15s;
+  transition:
+    background 0.15s,
+    box-shadow 0.15s,
+    opacity 0.15s;
   white-space: nowrap;
 }
 
@@ -16,9 +19,18 @@
 }
 
 /* sizes */
-.sm { font-size: 13px; padding: 6px 12px; }
-.md { font-size: 14px; padding: 8px 18px; }
-.lg { font-size: 15px; padding: 10px 24px; }
+.sm {
+  font-size: 13px;
+  padding: 6px 12px;
+}
+.md {
+  font-size: 14px;
+  padding: 8px 18px;
+}
+.lg {
+  font-size: 15px;
+  padding: 10px 24px;
+}
 
 /* variants */
 .primary {
@@ -60,7 +72,7 @@
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
@@ -68,5 +80,7 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
