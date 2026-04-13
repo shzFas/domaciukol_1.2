@@ -6,6 +6,37 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Hide scrollbars everywhere — scroll still works via touch / wheel */
+/*   scrollbar-width: none;
+  -ms-overflow-style: none; */
+}
+
+*::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari */
+}
+
+/* ── Page-level vertical scrollbar — visible, styled to match theme ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+html::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
 }
 
 :root {

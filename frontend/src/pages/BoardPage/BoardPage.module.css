@@ -68,3 +68,19 @@
 .retry:hover {
   background: var(--color-primary-light);
 }
+
+/* ── Mobile header ── */
+@media (max-width: 640px) {
+  .header {
+    height: 52px;
+    padding: 0 14px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
+  .center {
+    height: calc(100vh - 52px);
+  }
+}
