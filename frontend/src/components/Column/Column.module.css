@@ -112,3 +112,22 @@
   background: var(--color-border);
   color: var(--color-text);
 }
+
+/* ── Mobile: full width, no max-height (natural flow) ── */
+@media (max-width: 640px) {
+  .column {
+    width: 100%;
+    min-width: unset;
+    max-height: none;
+  }
+
+  /* On mobile always show column actions (no hover) */
+  .headerActions {
+    opacity: 1;
+  }
+
+  .addBtn {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+}

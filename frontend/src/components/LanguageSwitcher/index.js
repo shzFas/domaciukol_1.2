@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import "flag-icons/css/flag-icons.min.css";
 import styles from "./LanguageSwitcher.module.css";
 
 const LANGUAGES = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "ru", label: "RU", flag: "🇷🇺" },
-  { code: "cz", label: "CZ", flag: "🇨🇿" },
+  { code: "en", label: "EN", country: "gb" },
+  { code: "ru", label: "RU", country: "ru" },
+  { code: "cz", label: "CZ", country: "cz" },
 ];
 
 export default function LanguageSwitcher() {
@@ -14,12 +15,16 @@ export default function LanguageSwitcher() {
   const ref = useRef(null);
 
   const current =
-    LANGUAGES.find((l) => l.code === i18n.language) || LANGUAGES[0];
+    LANGUAGES.find((l) => i18n.language.startsWith(l.code)) ||
+    LANGUAGES[0];
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
     };
+
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
@@ -31,8 +36,11 @@ export default function LanguageSwitcher() {
 
   return (
     <div className={styles.wrapper} ref={ref}>
-      <button className={styles.trigger} onClick={() => setOpen((o) => !o)}>
-        <span>{current.flag}</span>
+      <button
+        className={styles.trigger}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className={`fi fi-${current.country}`} />
         <span>{current.label}</span>
         <span className={`${styles.arrow} ${open ? styles.arrowOpen : ""}`}>
           ▾
@@ -44,12 +52,16 @@ export default function LanguageSwitcher() {
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
-              className={`${styles.option} ${i18n.language === lang.code ? styles.active : ""}`}
+              className={`${styles.option} ${i18n.language.startsWith(lang.code)
+                  ? styles.active
+                  : ""
+                }`}
               onClick={() => handleSelect(lang.code)}
             >
-              <span>{lang.flag}</span>
+              <span className={`fi fi-${lang.country}`} />
               <span>{lang.label}</span>
-              {i18n.language === lang.code && (
+
+              {i18n.language.startsWith(lang.code) && (
                 <span className={styles.check}>✓</span>
               )}
             </button>

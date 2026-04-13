@@ -1,14 +1,14 @@
 .board {
   display: flex;
   gap: 16px;
-  padding: 24px;
+  padding: 20px;
   overflow-x: auto;
   align-items: flex-start;
   min-height: calc(100vh - 64px);
 }
 
 .addColumn {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--color-surface);
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-lg);
   padding: 14px 24px;
@@ -28,7 +28,33 @@
 }
 
 .addColumn:hover {
-  background: white;
+  background: var(--color-surface);
   border-color: var(--color-primary);
   color: var(--color-primary);
+}
+
+/* ── Tablet: smaller columns, still horizontal ── */
+@media (max-width: 1024px) {
+  .board {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+/* ── Mobile: stack columns vertically ── */
+@media (max-width: 640px) {
+  .board {
+    flex-direction: column;
+    overflow-x: hidden;
+    padding: 12px;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .addColumn {
+    width: 100%;
+    min-width: unset;
+    align-self: stretch;
+    height: 48px;
+  }
 }

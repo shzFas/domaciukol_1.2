@@ -6,13 +6,47 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Hide scrollbars everywhere — scroll still works via touch / wheel */
+/*   scrollbar-width: none;
+  -ms-overflow-style: none; */
+}
+
+*::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari */
+}
+
+/* ── Page-level vertical scrollbar — visible, styled to match theme ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+html::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
 }
 
 :root {
   --color-primary: #1a73e8;
   --color-primary-hover: #1557b0;
+  --color-primary-light: #e8f0fe;
+  --color-primary-lighter: #d2e3fc;
   --color-danger: #d93025;
   --color-danger-hover: #b31412;
+  --color-danger-light: #fce8e6;
   --color-success: #1e8e3e;
   --color-bg: #f8f9fa;
   --color-surface: #ffffff;
@@ -26,6 +60,25 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
   --font: "Google Sans", "Product Sans", Arial, sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-primary: #8ab4f8;
+  --color-primary-hover: #aecbfa;
+  --color-primary-light: rgba(138, 180, 248, 0.12);
+  --color-primary-lighter: rgba(138, 180, 248, 0.22);
+  --color-danger: #f28b82;
+  --color-danger-hover: #e57368;
+  --color-danger-light: rgba(242, 139, 130, 0.12);
+  --color-success: #81c995;
+  --color-bg: #202124;
+  --color-surface: #303134;
+  --color-border: #3c4043;
+  --color-text: #e8eaed;
+  --color-text-secondary: #9aa0a6;
+  --color-column-bg: #292a2d;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.55);
 }
 
 body {

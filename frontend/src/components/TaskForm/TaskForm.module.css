@@ -49,6 +49,6 @@
   color: var(--color-danger);
   text-align: center;
   padding: 8px;
-  background: #fce8e6;
+  background: var(--color-danger-light);
   border-radius: var(--radius-sm);
 }
