@@ -5,6 +5,7 @@ import TaskForm from "../../components/TaskForm";
 import CategoryForm from "../../components/CategoryForm";
 import ConfirmForm from "../../components/ConfirmForm";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
+import ThemeToggle from "../../components/ThemeToggle";
 import categoryApi from "../../api/categoryAPI.js";
 import taskApi from "../../api/taskAPI.js";
 import styles from "./BoardPage.module.css";
@@ -115,7 +116,10 @@ export default function BoardPage() {
     <>
       <header className={styles.header}>
         <h1 className={styles.logo}>📋 {t("board.title")}</h1>
-        <LanguageSwitcher />
+        <div className={styles.headerRight}>
+          <ThemeToggle />
+          <LanguageSwitcher />
+        </div>
       </header>
 
       <Board

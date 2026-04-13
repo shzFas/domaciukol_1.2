@@ -107,5 +107,5 @@
 }
 
 .deleteBtn:hover {
-  background: #fce8e6;
+  background: var(--color-danger-light);
 }

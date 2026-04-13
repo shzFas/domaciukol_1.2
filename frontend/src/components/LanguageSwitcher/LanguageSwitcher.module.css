@@ -74,11 +74,11 @@
 
 .active {
   color: var(--color-primary);
-  background: #e8f0fe;
+  background: var(--color-primary-light);
 }
 
 .active:hover {
-  background: #d2e3fc;
+  background: var(--color-primary-lighter);
 }
 
 .check {
