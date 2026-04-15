@@ -25,8 +25,17 @@ export default function BoardPage() {
   const fetchAll = useCallback(async () => {
     try {
       setLoading(true);
-      const [cats, tsks] = await Promise.all([categoryApi.getAll(), taskApi.getAll()]);
-      setCategories(cats.data);
+      let [catsRes, tsks] = await Promise.all([categoryApi.getAll(), taskApi.getAll()]);
+      let cats = catsRes.data;
+
+      // Auto-create a "Done" column when the board has no columns yet
+      if (cats.length === 0) {
+        await categoryApi.create({ name: "Done", color: "#34a853" });
+        const res = await categoryApi.getAll();
+        cats = res.data;
+      }
+
+      setCategories(cats);
       setTasks(tsks.data);
       setError(null);
     } catch {
@@ -65,7 +74,15 @@ export default function BoardPage() {
     }
   };
 
-  const handleCategoryReorder = (reordered) => setCategories(reordered);
+  const handleDirectDeleteTask = async (task) => {
+    try {
+      await taskApi.remove(task._id);
+      setTasks((prev) => prev.filter((t) => t._id !== task._id));
+    } catch {
+      await fetchAll();
+    }
+  };
+
   const handleAddCategory = () => setCategoryModal({ open: true, category: null });
   const handleEditCategory = (category) => setCategoryModal({ open: true, category });
   const handleDeleteCategory = (category) => setConfirmModal({ open: true, target: category, type: "category" });
@@ -132,7 +149,7 @@ export default function BoardPage() {
         onDeleteCategory={handleDeleteCategory}
         onAddCategory={handleAddCategory}
         onTaskDrop={handleTaskDrop}
-        onCategoryReorder={handleCategoryReorder}
+        onTaskTrash={handleDirectDeleteTask}
       />
 
       <TaskForm
