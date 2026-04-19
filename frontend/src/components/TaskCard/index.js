@@ -1,4 +1,4 @@
-import { useSortable } from "@dnd-kit/sortable";
+import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import styles from "./TaskCard.module.css";
 
@@ -8,13 +8,11 @@ export default function TaskCard({ task, onEdit, onDelete }) {
     listeners,
     setNodeRef,
     transform,
-    transition,
     isDragging,
-  } = useSortable({ id: task._id });
+  } = useDraggable({ id: task._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
     opacity: isDragging ? 0.4 : 1,
   };
 
@@ -55,7 +53,7 @@ export default function TaskCard({ task, onEdit, onDelete }) {
             e.stopPropagation();
             onEdit(task);
           }}
-          aria-label="Редактировать"
+          aria-label="Edit"
         >
           ✏️
         </button>
@@ -65,7 +63,7 @@ export default function TaskCard({ task, onEdit, onDelete }) {
             e.stopPropagation();
             onDelete(task);
           }}
-          aria-label="Удалить"
+          aria-label="Delete"
         >
           🗑
         </button>

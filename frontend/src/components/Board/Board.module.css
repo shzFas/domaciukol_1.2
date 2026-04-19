@@ -58,3 +58,55 @@
     height: 48px;
   }
 }
+
+/* ── Trash zone ── */
+.trashZone {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+  z-index: 1000;
+  user-select: none;
+}
+
+.trashVisible {
+  pointer-events: all;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.trashOver {
+  background: rgba(229, 57, 53, 0.08);
+  border-color: #e53935;
+  color: #e53935;
+}
+
+@media (max-width: 640px) {
+  .trashZone {
+    right: 50%;
+    bottom: 16px;
+    transform: translateX(50%) translateY(16px);
+  }
+
+  .trashVisible {
+    transform: translateX(50%) translateY(0);
+  }
+}

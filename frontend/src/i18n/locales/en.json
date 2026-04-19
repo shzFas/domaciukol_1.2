@@ -6,7 +6,8 @@
     "addTask": "+ Add task",
     "loading": "Loading...",
     "error": "Failed to load data. Check your server connection.",
-    "retry": "Retry"
+    "retry": "Retry",
+    "trashZone": "Drop here to delete"
   },
   "task": {
     "create": "New task",

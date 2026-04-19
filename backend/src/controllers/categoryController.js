@@ -1,4 +1,5 @@
 import Category from "../models/Category.js";
+import Task from "../models/Task.js";
 
 export const createCategory = async (req, res) => {
   try {
@@ -48,6 +49,7 @@ export const deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (!category) return res.status(404).json({ message: "Category not found" });
+    await Task.deleteMany({ category_id: req.params.id });
     res.json({ message: "Category deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -6,7 +6,8 @@
     "addTask": "+ Přidat úkol",
     "loading": "Načítání...",
     "error": "Nepodařilo se načíst data. Zkontrolujte připojení k serveru.",
-    "retry": "Zkusit znovu"
+    "retry": "Zkusit znovu",
+    "trashZone": "Přetáhni sem pro smazání"
   },
   "task": {
     "create": "Nový úkol",
