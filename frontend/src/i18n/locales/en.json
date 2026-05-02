@@ -52,5 +52,21 @@
   "confirm": {
     "title": "Confirmation",
     "message": "Are you sure? This action cannot be undone."
+  },
+  "snackbar": {
+    "languageChanged": "Language changed to {{language}}",
+    "taskCreated": "Task «{{name}}» created",
+    "taskUpdated": "Task «{{name}}» updated",
+    "taskDeleted": "Task «{{name}}» deleted",
+    "taskMoved": "Task «{{name}}» moved to «{{column}}»",
+    "taskMarkedDone": "Task «{{name}}» marked as done",
+    "taskMarkedPending": "Task «{{name}}» marked as pending",
+    "taskMoveFailed": "Failed to move task",
+    "taskUpdateFailed": "Failed to update task",
+    "taskDeleteFailed": "Failed to delete task",
+    "categoryCreated": "Column «{{name}}» created",
+    "categoryUpdated": "Column «{{name}}» updated",
+    "categoryDeleted": "Column «{{name}}» deleted",
+    "categoryDeleteFailed": "Failed to delete column"
   }
 }

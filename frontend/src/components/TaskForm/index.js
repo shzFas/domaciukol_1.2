@@ -121,18 +121,6 @@ export default function TaskForm({
       />
 
       <div className={styles.field}>
-        <label className={styles.label}>{t("task.status")}</label>
-        <select
-          className={styles.select}
-          value={fields.status}
-          onChange={set("status")}
-        >
-          <option value="pending">{t("task.statusPending")}</option>
-          <option value="done">{t("task.statusDone")}</option>
-        </select>
-      </div>
-
-      <div className={styles.field}>
         <label className={styles.label}>
           {t("task.category")} <span className={styles.required}>*</span>
         </label>

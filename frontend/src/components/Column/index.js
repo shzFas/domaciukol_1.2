@@ -9,6 +9,7 @@ export default function Column({
   onAddTask,
   onEditTask,
   onDeleteTask,
+  onToggleDone,
   onEditCategory,
   onDeleteCategory,
 }) {
@@ -55,6 +56,7 @@ export default function Column({
             task={task}
             onEdit={onEditTask}
             onDelete={onDeleteTask}
+            onToggleDone={onToggleDone}
           />
         ))}
       </div>

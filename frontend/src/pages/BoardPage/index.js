@@ -6,12 +6,14 @@ import CategoryForm from "../../components/CategoryForm";
 import ConfirmForm from "../../components/ConfirmForm";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import ThemeToggle from "../../components/ThemeToggle";
+import { useSnackbar } from "../../components/Snackbar";
 import categoryApi from "../../api/categoryAPI.js";
 import taskApi from "../../api/taskAPI.js";
 import styles from "./BoardPage.module.css";
 
 export default function BoardPage() {
   const { t } = useTranslation();
+  const snackbar = useSnackbar();
   const [categories, setCategories] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,10 +56,17 @@ export default function BoardPage() {
   const handleTaskSubmit = async (fields) => {
     if (taskModal.task) {
       await taskApi.update(taskModal.task._id, fields);
+      snackbar.success(t("snackbar.taskUpdated", { name: fields.name }));
     } else {
       await taskApi.create(fields);
+      snackbar.success(t("snackbar.taskCreated", { name: fields.name }));
     }
     await fetchAll();
+  };
+
+  const getCategoryName = (id) => {
+    const cat = categories.find((c) => c._id === id);
+    return cat ? cat.name : "";
   };
 
   const handleTaskDrop = async (task, newCategoryId) => {
@@ -69,7 +78,35 @@ export default function BoardPage() {
     );
     try {
       await taskApi.update(task._id, { ...task, category_id: newCategoryId });
+      snackbar.success(
+        t("snackbar.taskMoved", {
+          name: task.name,
+          column: getCategoryName(newCategoryId),
+        }),
+      );
     } catch {
+      snackbar.error(t("snackbar.taskMoveFailed"));
+      await fetchAll();
+    }
+  };
+
+  const handleToggleDone = async (task) => {
+    const nextStatus = task.status === "done" ? "pending" : "done";
+    setTasks((prev) =>
+      prev.map((t) => (t._id === task._id ? { ...t, status: nextStatus } : t)),
+    );
+    try {
+      await taskApi.update(task._id, { ...task, status: nextStatus });
+      snackbar.success(
+        t(
+          nextStatus === "done"
+            ? "snackbar.taskMarkedDone"
+            : "snackbar.taskMarkedPending",
+          { name: task.name },
+        ),
+      );
+    } catch {
+      snackbar.error(t("snackbar.taskUpdateFailed"));
       await fetchAll();
     }
   };
@@ -78,7 +115,9 @@ export default function BoardPage() {
     try {
       await taskApi.remove(task._id);
       setTasks((prev) => prev.filter((t) => t._id !== task._id));
+      snackbar.success(t("snackbar.taskDeleted", { name: task.name }));
     } catch {
+      snackbar.error(t("snackbar.taskDeleteFailed"));
       await fetchAll();
     }
   };
@@ -90,22 +129,32 @@ export default function BoardPage() {
   const handleCategorySubmit = async (fields) => {
     if (categoryModal.category) {
       await categoryApi.update(categoryModal.category._id, fields);
+      snackbar.success(t("snackbar.categoryUpdated", { name: fields.name }));
     } else {
       await categoryApi.create(fields);
+      snackbar.success(t("snackbar.categoryCreated", { name: fields.name }));
     }
     await fetchAll();
   };
 
   const handleConfirm = async () => {
     setConfirmLoading(true);
+    const target = confirmModal.target;
+    const type = confirmModal.type;
     try {
-      if (confirmModal.type === "task") {
-        await taskApi.remove(confirmModal.target._id);
+      if (type === "task") {
+        await taskApi.remove(target._id);
+        snackbar.success(t("snackbar.taskDeleted", { name: target?.name }));
       } else {
-        await categoryApi.remove(confirmModal.target._id);
+        await categoryApi.remove(target._id);
+        snackbar.success(t("snackbar.categoryDeleted", { name: target?.name }));
       }
       await fetchAll();
       setConfirmModal({ open: false, target: null, type: null });
+    } catch {
+      snackbar.error(
+        t(type === "task" ? "snackbar.taskDeleteFailed" : "snackbar.categoryDeleteFailed"),
+      );
     } finally {
       setConfirmLoading(false);
     }
@@ -145,6 +194,7 @@ export default function BoardPage() {
         onAddTask={handleAddTask}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
+        onToggleDone={handleToggleDone}
         onEditCategory={handleEditCategory}
         onDeleteCategory={handleDeleteCategory}
         onAddCategory={handleAddCategory}

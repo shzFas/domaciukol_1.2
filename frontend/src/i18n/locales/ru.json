@@ -52,5 +52,21 @@
   "confirm": {
     "title": "Подтверждение",
     "message": "Вы уверены? Это действие нельзя отменить."
+  },
+  "snackbar": {
+    "languageChanged": "Язык изменён на {{language}}",
+    "taskCreated": "Задача «{{name}}» создана",
+    "taskUpdated": "Задача «{{name}}» обновлена",
+    "taskDeleted": "Задача «{{name}}» удалена",
+    "taskMoved": "Задача «{{name}}» перемещена в «{{column}}»",
+    "taskMarkedDone": "Задача «{{name}}» отмечена как выполненная",
+    "taskMarkedPending": "Задача «{{name}}» отмечена как невыполненная",
+    "taskMoveFailed": "Не удалось переместить задачу",
+    "taskUpdateFailed": "Не удалось обновить задачу",
+    "taskDeleteFailed": "Не удалось удалить задачу",
+    "categoryCreated": "Колонка «{{name}}» создана",
+    "categoryUpdated": "Колонка «{{name}}» обновлена",
+    "categoryDeleted": "Колонка «{{name}}» удалена",
+    "categoryDeleteFailed": "Не удалось удалить колонку"
   }
 }

@@ -52,5 +52,21 @@
   "confirm": {
     "title": "Potvrzení",
     "message": "Opravdu chcete pokračovat? Tuto akci nelze vrátit."
+  },
+  "snackbar": {
+    "languageChanged": "Jazyk změněn na {{language}}",
+    "taskCreated": "Úkol «{{name}}» vytvořen",
+    "taskUpdated": "Úkol «{{name}}» upraven",
+    "taskDeleted": "Úkol «{{name}}» smazán",
+    "taskMoved": "Úkol «{{name}}» přesunut do «{{column}}»",
+    "taskMarkedDone": "Úkol «{{name}}» označen jako vyřízený",
+    "taskMarkedPending": "Úkol «{{name}}» označen jako nevyřízený",
+    "taskMoveFailed": "Úkol se nepodařilo přesunout",
+    "taskUpdateFailed": "Úkol se nepodařilo upravit",
+    "taskDeleteFailed": "Úkol se nepodařilo smazat",
+    "categoryCreated": "Sloupec «{{name}}» vytvořen",
+    "categoryUpdated": "Sloupec «{{name}}» upraven",
+    "categoryDeleted": "Sloupec «{{name}}» smazán",
+    "categoryDeleteFailed": "Sloupec se nepodařilo smazat"
   }
 }
