@@ -1,5 +1,21 @@
 import { body, validationResult } from "express-validator";
 
+/**
+ * `taskValidation` — Express middleware chain for POST/PUT /api/tasks.
+ *
+ * Rules:
+ *   - `name`        → required, non-empty string, trimmed.
+ *   - `description` → optional string, trimmed.
+ *   - `deadline`    → optional, ISO-8601 date string.
+ *   - `status`      → optional, one of "pending" | "done".
+ *   - `category_id` → required, valid MongoDB ObjectId.
+ *
+ * On rule failure, responds 400:
+ *   { message: "invalidDtoIn", errors: [{ field, message }, ...] }
+ *
+ * The middleware does NOT check that `category_id` actually points to an existing
+ * Category — that responsibility is left to Mongoose / the database layer.
+ */
 export const taskValidation = [
   body("name")
     .notEmpty().withMessage("name is required")

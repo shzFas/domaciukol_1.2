@@ -1,5 +1,18 @@
 import { body, validationResult } from "express-validator";
 
+/**
+ * `categoryValidation` — Express middleware chain for POST/PUT /api/categories.
+ *
+ * Rules:
+ *   - `name`  → required, string, trimmed.
+ *   - `color` → optional, string, must match a hex color regex (`#RGB` or `#RRGGBB`).
+ *
+ * On any rule failure, responds 400 with shape:
+ *   { message: "invalidDtoIn", errors: [{ field, message }, ...] }
+ *
+ * Higher-level rules (uniqueness, reserved names, system-column protection) are
+ * enforced in the controller, not here.
+ */
 export const categoryValidation = [
   body("name")
     .notEmpty().withMessage("name is required")

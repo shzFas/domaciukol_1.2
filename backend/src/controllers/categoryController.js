@@ -1,13 +1,32 @@
 import Category from "../models/Category.js";
 import Task from "../models/Task.js";
 
+/**
+ * Names the system manages itself. Clients cannot create or modify categories
+ * with these names (case-insensitive). Both columns are auto-seeded on server
+ * startup by `ensureSystemCategories`.
+ *
+ *   - "done"     — moving a task into this column auto-marks it as `status: "done"`.
+ *   - "archived" — soft-delete bin; tasks here are hidden from the board UI.
+ *
+ * @type {string[]}
+ */
 const RESERVED_NAMES = ["done", "archived"];
 
+/** Escape a user-supplied string so it can be safely embedded in a regex. */
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/** True if the given name (after trim/lowercase) is a system-reserved name. */
 const isReserved = (name) =>
   RESERVED_NAMES.includes((name || "").trim().toLowerCase());
 
+/**
+ * Find a category by name, case-insensitive. Used to enforce uniqueness.
+ *
+ * @param {string} name      Trimmed name to look up.
+ * @param {string} [excludeId]  When updating, exclude the document being edited
+ *                              so a no-op rename doesn't false-positive.
+ */
 const findByNameCI = (name, excludeId) => {
   const filter = {
     name: { $regex: `^${escapeRegex(name.trim())}$`, $options: "i" },
@@ -16,6 +35,16 @@ const findByNameCI = (name, excludeId) => {
   return Category.findOne(filter);
 };
 
+/**
+ * POST /api/categories
+ * Create a new column.
+ *
+ * Returns:
+ *   - 201 + Category — success.
+ *   - 409 `categoryNameReserved` — name is "done" or "archived".
+ *   - 409 `categoryNameDuplicate` — another column with that name exists.
+ *   - 400 — Mongoose / validation error from the schema.
+ */
 export const createCategory = async (req, res) => {
   try {
     const { name, color } = req.body;
@@ -34,6 +63,10 @@ export const createCategory = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/categories
+ * Returns all categories (including system-reserved ones).
+ */
 export const getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -43,6 +76,10 @@ export const getCategories = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/categories/:id
+ * Returns one category by id, or 404.
+ */
 export const getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -53,6 +90,19 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
+/**
+ * PUT /api/categories/:id
+ * Update a category's `name` and/or `color`. Three guard rails apply:
+ *
+ *   1. If the existing category is system-reserved (Done / Archived), its name
+ *      cannot be changed → 409 `categoryReservedReadOnly`. (Color edits are still
+ *      blocked here too because we only proceed when name is identical.)
+ *   2. The new name cannot be a reserved name → 409 `categoryNameReserved`.
+ *   3. The new name cannot collide with another existing column → 409
+ *      `categoryNameDuplicate`.
+ *
+ * Returns 200 + Category on success, 404 if id not found, 400 on Mongoose error.
+ */
 export const updateCategory = async (req, res) => {
   try {
     const { name, color } = req.body;
@@ -85,6 +135,14 @@ export const updateCategory = async (req, res) => {
   }
 };
 
+/**
+ * DELETE /api/categories/:id
+ * Removes the category and **cascades** to all tasks in it (hard-delete).
+ *
+ *   - 200 — deleted.
+ *   - 404 — category not found.
+ *   - 409 `categoryReservedReadOnly` — attempt to delete Done or Archived.
+ */
 export const deleteCategory = async (req, res) => {
   try {
     const existing = await Category.findById(req.params.id);
@@ -100,6 +158,12 @@ export const deleteCategory = async (req, res) => {
   }
 };
 
+/**
+ * Server-startup seed. Called once from `index.js` after the DB connection is
+ * established. Creates the two system-reserved columns if they are missing,
+ * idempotently. Never invoked through the HTTP API, so it bypasses the
+ * `categoryNameReserved` guard intentionally.
+ */
 export const ensureSystemCategories = async () => {
   const defaults = [
     { name: "Done", color: "#34a853" },
