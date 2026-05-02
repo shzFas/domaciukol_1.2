@@ -16,8 +16,14 @@ export default function Column({
   const { t } = useTranslation();
   const { setNodeRef, isOver } = useDroppable({ id: category._id });
 
+  const lowered = category?.name?.trim().toLowerCase();
+  const isArchived = lowered === "archived";
+
   return (
-    <div className={styles.column}>
+    <div
+      className={`${styles.column} ${isArchived ? styles.archivedColumn : ""}`}
+      data-archived={isArchived || undefined}
+    >
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <span

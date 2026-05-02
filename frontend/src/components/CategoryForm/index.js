@@ -57,8 +57,14 @@ export default function CategoryForm({ isOpen, onClose, onSubmit, category }) {
       await onSubmit(fields);
       onClose();
     } catch (e) {
+      const code = e.response?.data?.message;
+      const map = {
+        categoryNameDuplicate: t("validation.categoryNameDuplicate"),
+        categoryNameReserved: t("validation.categoryNameReserved"),
+        categoryReservedReadOnly: t("validation.categoryReservedReadOnly"),
+      };
       setErrors({
-        submit: e.response?.data?.message || t("validation.serverError"),
+        submit: map[code] || code || t("validation.serverError"),
       });
     } finally {
       setLoading(false);

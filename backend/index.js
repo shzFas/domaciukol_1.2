@@ -4,13 +4,22 @@ import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import categoryRoutes from "./src/routes/categoryRoutes.js";
 import taskRoutes from "./src/routes/taskRoutes.js";
+import { ensureSystemCategories } from "./src/controllers/categoryController.js";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4444;
 
-connectDB();
+(async () => {
+  await connectDB();
+  try {
+    await ensureSystemCategories();
+  } catch (e) {
+    console.error("Failed to seed system categories:", e.message);
+  }
+})();
+
 app.use(cors());
 
 app.use(express.json());

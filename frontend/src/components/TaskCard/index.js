@@ -38,9 +38,10 @@ export default function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
             onToggleDone?.(task);
           }}
           onPointerDown={(e) => e.stopPropagation()}
-          aria-label={task.status === "done" ? "Mark pending" : "Mark done"}
+          aria-label={task.status === "done" ? "Rework" : "Mark done"}
+          title={task.status === "done" ? "Rework" : "Mark done"}
         >
-          {task.status === "done" ? "✓" : "●"}
+          {task.status === "done" ? "↺" : "●"}
         </button>
         <p className={styles.name}>{task.name}</p>
       </div>
@@ -56,6 +57,18 @@ export default function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
       )}
 
       <div className={styles.actions}>
+        <button
+          className={`${styles.actionBtn} ${task.status === "done" ? styles.reworkBtn : styles.doneBtn}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleDone?.(task);
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label={task.status === "done" ? "Rework" : "Mark done"}
+          title={task.status === "done" ? "Rework" : "Mark done"}
+        >
+          {task.status === "done" ? "🔄" : "✓"}
+        </button>
         <button
           className={styles.actionBtn}
           onClick={(e) => {

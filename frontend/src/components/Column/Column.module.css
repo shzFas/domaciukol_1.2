@@ -10,6 +10,11 @@
   max-height: calc(100vh - 120px);
 }
 
+.archivedColumn,
+.column[data-archived] {
+  display: none;
+}
+
 .header {
   display: flex;
   align-items: center;

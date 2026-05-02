@@ -125,3 +125,22 @@
 .deleteBtn:hover {
   background: var(--color-danger-light);
 }
+
+.doneBtn {
+  color: var(--color-text-secondary);
+  font-weight: 700;
+}
+
+.doneBtn:hover {
+  background: var(--color-primary-light);
+  color: var(--color-success);
+}
+
+.reworkBtn {
+  filter: grayscale(0.2);
+}
+
+.reworkBtn:hover {
+  background: var(--color-primary-light);
+  filter: none;
+}
