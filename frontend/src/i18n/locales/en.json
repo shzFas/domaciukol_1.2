@@ -26,7 +26,7 @@
     "category": "Category",
     "categoryPlaceholder": "— Select category —",
     "deleteTitle": "Delete task",
-    "deleteMessage": "Delete task «{{name}}»? This action cannot be undone."
+    "deleteMessage": "Delete task «{{name}}»? It will be moved to the archive — you can restore it later."
   },
   "category": {
     "create": "New column",
@@ -47,10 +47,47 @@
     "categoryRequired": "Please select a category",
     "invalidDate": "Invalid date",
     "invalidHex": "Invalid HEX color",
-    "serverError": "Server error"
+    "serverError": "Server error",
+    "categoryNameDuplicate": "A column with this name already exists",
+    "categoryNameReserved": "This name is reserved by the system",
+    "categoryReservedReadOnly": "This system column cannot be modified or deleted"
   },
   "confirm": {
     "title": "Confirmation",
     "message": "Are you sure? This action cannot be undone."
+  },
+  "snackbar": {
+    "languageChanged": "Language changed to {{language}}",
+    "taskCreated": "Task «{{name}}» created",
+    "taskUpdated": "Task «{{name}}» updated",
+    "taskDeleted": "Task «{{name}}» deleted",
+    "taskMoved": "Task «{{name}}» moved to «{{column}}»",
+    "taskMarkedDone": "Task «{{name}}» marked as done",
+    "taskMarkedPending": "Task «{{name}}» marked as pending",
+    "taskMoveFailed": "Failed to move task",
+    "taskUpdateFailed": "Failed to update task",
+    "taskDeleteFailed": "Failed to delete task",
+    "taskArchived": "Task «{{name}}» archived",
+    "taskArchiveFailed": "Failed to archive task",
+    "taskRestored": "Task «{{name}}» restored to «{{column}}»",
+    "taskRestoreFailed": "Failed to restore task",
+    "noDoneColumn": "No \"Done\" column found",
+    "noArchiveColumn": "No \"Archived\" column found",
+    "categoryCreated": "Column «{{name}}» created",
+    "categoryUpdated": "Column «{{name}}» updated",
+    "categoryDeleted": "Column «{{name}}» deleted",
+    "categoryDeleteFailed": "Failed to delete column"
+  },
+  "move": {
+    "title": "Move «{{name}}»",
+    "hint": "Pick a column to move this task to, or archive it.",
+    "archive": "Archive",
+    "noColumns": "No other columns available."
+  },
+  "archive": {
+    "title": "Archive",
+    "empty": "Archive is empty.",
+    "restore": "Restore",
+    "pickColumn": "— Select column —"
   }
 }

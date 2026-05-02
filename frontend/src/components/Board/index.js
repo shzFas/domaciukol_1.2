@@ -35,6 +35,7 @@ export default function Board({
   onAddTask,
   onEditTask,
   onDeleteTask,
+  onToggleDone,
   onEditCategory,
   onDeleteCategory,
   onAddCategory,
@@ -100,6 +101,7 @@ export default function Board({
             onAddTask={onAddTask}
             onEditTask={onEditTask}
             onDeleteTask={onDeleteTask}
+            onToggleDone={onToggleDone}
             onEditCategory={onEditCategory}
             onDeleteCategory={onDeleteCategory}
           />
@@ -113,7 +115,12 @@ export default function Board({
 
       <DragOverlay>
         {activeTask && (
-          <TaskCard task={activeTask} onEdit={() => {}} onDelete={() => {}} />
+          <TaskCard
+            task={activeTask}
+            onEdit={() => {}}
+            onDelete={() => {}}
+            onToggleDone={() => {}}
+          />
         )}
       </DragOverlay>
     </DndContext>

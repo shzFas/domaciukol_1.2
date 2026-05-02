@@ -26,7 +26,7 @@
     "category": "Категория",
     "categoryPlaceholder": "— Выберите категорию —",
     "deleteTitle": "Удалить задачу",
-    "deleteMessage": "Удалить задачу «{{name}}»? Это действие нельзя отменить."
+    "deleteMessage": "Удалить задачу «{{name}}»? Она будет перенесена в архив — её можно будет восстановить."
   },
   "category": {
     "create": "Новая колонка",
@@ -47,10 +47,47 @@
     "categoryRequired": "Выберите категорию",
     "invalidDate": "Некорректная дата",
     "invalidHex": "Некорректный HEX цвет",
-    "serverError": "Ошибка сервера"
+    "serverError": "Ошибка сервера",
+    "categoryNameDuplicate": "Колонка с таким именем уже существует",
+    "categoryNameReserved": "Это имя зарезервировано системой",
+    "categoryReservedReadOnly": "Эту системную колонку нельзя изменить или удалить"
   },
   "confirm": {
     "title": "Подтверждение",
     "message": "Вы уверены? Это действие нельзя отменить."
+  },
+  "snackbar": {
+    "languageChanged": "Язык изменён на {{language}}",
+    "taskCreated": "Задача «{{name}}» создана",
+    "taskUpdated": "Задача «{{name}}» обновлена",
+    "taskDeleted": "Задача «{{name}}» удалена",
+    "taskMoved": "Задача «{{name}}» перемещена в «{{column}}»",
+    "taskMarkedDone": "Задача «{{name}}» отмечена как выполненная",
+    "taskMarkedPending": "Задача «{{name}}» отмечена как невыполненная",
+    "taskMoveFailed": "Не удалось переместить задачу",
+    "taskUpdateFailed": "Не удалось обновить задачу",
+    "taskDeleteFailed": "Не удалось удалить задачу",
+    "taskArchived": "Задача «{{name}}» отправлена в архив",
+    "taskArchiveFailed": "Не удалось отправить задачу в архив",
+    "taskRestored": "Задача «{{name}}» восстановлена в «{{column}}»",
+    "taskRestoreFailed": "Не удалось восстановить задачу",
+    "noDoneColumn": "Колонка «Done» не найдена",
+    "noArchiveColumn": "Колонка «Archived» не найдена",
+    "categoryCreated": "Колонка «{{name}}» создана",
+    "categoryUpdated": "Колонка «{{name}}» обновлена",
+    "categoryDeleted": "Колонка «{{name}}» удалена",
+    "categoryDeleteFailed": "Не удалось удалить колонку"
+  },
+  "move": {
+    "title": "Переместить «{{name}}»",
+    "hint": "Выберите колонку, куда переместить задачу, или отправьте её в архив.",
+    "archive": "В архив",
+    "noColumns": "Других колонок нет."
+  },
+  "archive": {
+    "title": "Архив",
+    "empty": "Архив пуст.",
+    "restore": "Восстановить",
+    "pickColumn": "— Выберите колонку —"
   }
 }

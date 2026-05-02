@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Board from "../../components/Board";
 import TaskForm from "../../components/TaskForm";
@@ -6,12 +6,25 @@ import CategoryForm from "../../components/CategoryForm";
 import ConfirmForm from "../../components/ConfirmForm";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import ThemeToggle from "../../components/ThemeToggle";
+import ArchiveButton from "../../components/ArchiveButton";
+import ArchiveModal from "../../components/ArchiveModal";
+import MoveTaskModal from "../../components/MoveTaskModal";
+import { useSnackbar } from "../../components/Snackbar";
 import categoryApi from "../../api/categoryAPI.js";
 import taskApi from "../../api/taskAPI.js";
 import styles from "./BoardPage.module.css";
 
+const nameIs = (cat, target) =>
+  cat?.name?.trim().toLowerCase() === target;
+
+const isDoneCategory = (cat) => nameIs(cat, "done");
+const isArchivedCategory = (cat) => nameIs(cat, "archived");
+const isReservedCategory = (cat) =>
+  isDoneCategory(cat) || isArchivedCategory(cat);
+
 export default function BoardPage() {
   const { t } = useTranslation();
+  const snackbar = useSnackbar();
   const [categories, setCategories] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,21 +34,18 @@ export default function BoardPage() {
   const [categoryModal, setCategoryModal] = useState({ open: false, category: null });
   const [confirmModal, setConfirmModal] = useState({ open: false, target: null, type: null });
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [archiveOpen, setArchiveOpen] = useState(false);
+  const [moveModal, setMoveModal] = useState({ open: false, task: null });
+  const [moveLoading, setMoveLoading] = useState(false);
 
   const fetchAll = useCallback(async () => {
     try {
       setLoading(true);
-      let [catsRes, tsks] = await Promise.all([categoryApi.getAll(), taskApi.getAll()]);
-      let cats = catsRes.data;
-
-      // Auto-create a "Done" column when the board has no columns yet
-      if (cats.length === 0) {
-        await categoryApi.create({ name: "Done", color: "#34a853" });
-        const res = await categoryApi.getAll();
-        cats = res.data;
-      }
-
-      setCategories(cats);
+      const [catsRes, tsks] = await Promise.all([
+        categoryApi.getAll(),
+        taskApi.getAll(),
+      ]);
+      setCategories(catsRes.data);
       setTasks(tsks.data);
       setError(null);
     } catch {
@@ -47,6 +57,31 @@ export default function BoardPage() {
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
+  const archivedCategory = useMemo(
+    () => categories.find(isArchivedCategory),
+    [categories],
+  );
+  const doneCategory = useMemo(
+    () => categories.find(isDoneCategory),
+    [categories],
+  );
+
+  const archivedCategoryId = archivedCategory?._id;
+
+  const taskCategoryId = (task) =>
+    typeof task.category_id === "object" ? task.category_id._id : task.category_id;
+
+  const isTaskArchived = (task) => taskCategoryId(task) === archivedCategoryId;
+
+  const visibleTasks = useMemo(
+    () => tasks.filter((tk) => !isTaskArchived(tk)),
+    [tasks, archivedCategoryId],
+  );
+  const archivedTasks = useMemo(
+    () => tasks.filter(isTaskArchived),
+    [tasks, archivedCategoryId],
+  );
+
   const handleAddTask = (categoryId) => setTaskModal({ open: true, task: null, categoryId });
   const handleEditTask = (task) => setTaskModal({ open: true, task, categoryId: null });
   const handleDeleteTask = (task) => setConfirmModal({ open: true, target: task, type: "task" });
@@ -54,31 +89,186 @@ export default function BoardPage() {
   const handleTaskSubmit = async (fields) => {
     if (taskModal.task) {
       await taskApi.update(taskModal.task._id, fields);
+      snackbar.success(t("snackbar.taskUpdated", { name: fields.name }));
     } else {
       await taskApi.create(fields);
+      snackbar.success(t("snackbar.taskCreated", { name: fields.name }));
     }
     await fetchAll();
   };
 
+  const getCategoryName = (id) => {
+    const cat = categories.find((c) => c._id === id);
+    return cat ? cat.name : "";
+  };
+
   const handleTaskDrop = async (task, newCategoryId) => {
-    const activeCategoryId =
-      typeof task.category_id === "object" ? task.category_id._id : task.category_id;
+    const activeCategoryId = taskCategoryId(task);
     if (activeCategoryId === newCategoryId) return;
+
+    const newColumn = categories.find((c) => c._id === newCategoryId);
+    const oldColumn = categories.find((c) => c._id === activeCategoryId);
+    let newStatus = task.status;
+    if (isDoneCategory(newColumn)) newStatus = "done";
+    else if (isDoneCategory(oldColumn)) newStatus = "pending";
+
     setTasks((prev) =>
-      prev.map((t) => t._id === task._id ? { ...t, category_id: newCategoryId } : t)
+      prev.map((tk) =>
+        tk._id === task._id
+          ? { ...tk, category_id: newCategoryId, status: newStatus }
+          : tk,
+      ),
     );
     try {
-      await taskApi.update(task._id, { ...task, category_id: newCategoryId });
+      await taskApi.update(task._id, {
+        ...task,
+        category_id: newCategoryId,
+        status: newStatus,
+      });
+      snackbar.success(
+        t("snackbar.taskMoved", {
+          name: task.name,
+          column: getCategoryName(newCategoryId),
+        }),
+      );
     } catch {
+      snackbar.error(t("snackbar.taskMoveFailed"));
       await fetchAll();
     }
   };
 
-  const handleDirectDeleteTask = async (task) => {
+  // ✓ button. Not in Done → move to Done. In Done → ask where to move.
+  const handleToggleDone = async (task) => {
+    const currentCategory = categories.find(
+      (c) => c._id === taskCategoryId(task),
+    );
+
+    if (isDoneCategory(currentCategory)) {
+      setMoveModal({ open: true, task });
+      return;
+    }
+
+    if (!doneCategory) {
+      snackbar.error(t("snackbar.noDoneColumn"));
+      return;
+    }
+
+    setTasks((prev) =>
+      prev.map((tk) =>
+        tk._id === task._id
+          ? { ...tk, status: "done", category_id: doneCategory._id }
+          : tk,
+      ),
+    );
+    try {
+      await taskApi.update(task._id, {
+        ...task,
+        status: "done",
+        category_id: doneCategory._id,
+      });
+      snackbar.success(t("snackbar.taskMarkedDone", { name: task.name }));
+    } catch {
+      snackbar.error(t("snackbar.taskUpdateFailed"));
+      await fetchAll();
+    }
+  };
+
+  const archiveTask = async (task) => {
+    if (!archivedCategory) {
+      snackbar.error(t("snackbar.noArchiveColumn"));
+      throw new Error("No archive column");
+    }
+    await taskApi.update(task._id, {
+      ...task,
+      category_id: archivedCategory._id,
+      status: "pending",
+    });
+  };
+
+  const handleMoveSubmit = async (newCategoryId) => {
+    const task = moveModal.task;
+    if (!task) return;
+    setMoveLoading(true);
+    try {
+      await taskApi.update(task._id, {
+        ...task,
+        category_id: newCategoryId,
+        status: "pending",
+      });
+      snackbar.success(
+        t("snackbar.taskMoved", {
+          name: task.name,
+          column: getCategoryName(newCategoryId),
+        }),
+      );
+      setMoveModal({ open: false, task: null });
+      await fetchAll();
+    } catch {
+      snackbar.error(t("snackbar.taskMoveFailed"));
+    } finally {
+      setMoveLoading(false);
+    }
+  };
+
+  const handleArchiveFromMove = async () => {
+    const task = moveModal.task;
+    if (!task) return;
+    setMoveLoading(true);
+    try {
+      await archiveTask(task);
+      snackbar.success(t("snackbar.taskArchived", { name: task.name }));
+      setMoveModal({ open: false, task: null });
+      await fetchAll();
+    } catch {
+      snackbar.error(t("snackbar.taskArchiveFailed"));
+    } finally {
+      setMoveLoading(false);
+    }
+  };
+
+  const handleRestoreArchived = async (task, categoryId) => {
+    try {
+      await taskApi.update(task._id, {
+        ...task,
+        category_id: categoryId,
+        status: "pending",
+      });
+      snackbar.success(
+        t("snackbar.taskRestored", {
+          name: task.name,
+          column: getCategoryName(categoryId),
+        }),
+      );
+      await fetchAll();
+    } catch {
+      snackbar.error(t("snackbar.taskRestoreFailed"));
+    }
+  };
+
+  const handleDeleteArchived = async (task) => {
     try {
       await taskApi.remove(task._id);
-      setTasks((prev) => prev.filter((t) => t._id !== task._id));
+      snackbar.success(t("snackbar.taskDeleted", { name: task.name }));
+      await fetchAll();
     } catch {
+      snackbar.error(t("snackbar.taskDeleteFailed"));
+    }
+  };
+
+  const handleDirectDeleteTask = async (task) => {
+    setTasks((prev) =>
+      prev.map((tk) =>
+        tk._id === task._id
+          ? { ...tk, category_id: archivedCategoryId }
+          : tk,
+      ),
+    );
+    try {
+      await archiveTask(task);
+      snackbar.success(t("snackbar.taskArchived", { name: task.name }));
+      await fetchAll();
+    } catch {
+      snackbar.error(t("snackbar.taskArchiveFailed"));
       await fetchAll();
     }
   };
@@ -90,22 +280,32 @@ export default function BoardPage() {
   const handleCategorySubmit = async (fields) => {
     if (categoryModal.category) {
       await categoryApi.update(categoryModal.category._id, fields);
+      snackbar.success(t("snackbar.categoryUpdated", { name: fields.name }));
     } else {
       await categoryApi.create(fields);
+      snackbar.success(t("snackbar.categoryCreated", { name: fields.name }));
     }
     await fetchAll();
   };
 
   const handleConfirm = async () => {
     setConfirmLoading(true);
+    const target = confirmModal.target;
+    const type = confirmModal.type;
     try {
-      if (confirmModal.type === "task") {
-        await taskApi.remove(confirmModal.target._id);
+      if (type === "task") {
+        await archiveTask(target);
+        snackbar.success(t("snackbar.taskArchived", { name: target?.name }));
       } else {
-        await categoryApi.remove(confirmModal.target._id);
+        await categoryApi.remove(target._id);
+        snackbar.success(t("snackbar.categoryDeleted", { name: target?.name }));
       }
       await fetchAll();
       setConfirmModal({ open: false, target: null, type: null });
+    } catch {
+      snackbar.error(
+        t(type === "task" ? "snackbar.taskArchiveFailed" : "snackbar.categoryDeleteFailed"),
+      );
     } finally {
       setConfirmLoading(false);
     }
@@ -134,6 +334,10 @@ export default function BoardPage() {
       <header className={styles.header}>
         <h1 className={styles.logo}>📋 {t("board.title")}</h1>
         <div className={styles.headerRight}>
+          <ArchiveButton
+            count={archivedTasks.length}
+            onClick={() => setArchiveOpen(true)}
+          />
           <ThemeToggle />
           <LanguageSwitcher />
         </div>
@@ -141,10 +345,11 @@ export default function BoardPage() {
 
       <Board
         categories={categories}
-        tasks={tasks}
+        tasks={visibleTasks}
         onAddTask={handleAddTask}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
+        onToggleDone={handleToggleDone}
         onEditCategory={handleEditCategory}
         onDeleteCategory={handleDeleteCategory}
         onAddCategory={handleAddCategory}
@@ -157,7 +362,7 @@ export default function BoardPage() {
         onClose={() => setTaskModal({ open: false, task: null, categoryId: null })}
         onSubmit={handleTaskSubmit}
         task={taskModal.task}
-        categories={categories}
+        categories={categories.filter((c) => !isReservedCategory(c) || isDoneCategory(c))}
         defaultCategoryId={taskModal.categoryId}
       />
 
@@ -178,6 +383,25 @@ export default function BoardPage() {
           confirmModal.type === "task" ? "task.deleteMessage" : "category.deleteMessage",
           { name: confirmModal.target?.name }
         )}
+      />
+
+      <MoveTaskModal
+        isOpen={moveModal.open}
+        onClose={() => setMoveModal({ open: false, task: null })}
+        onMove={handleMoveSubmit}
+        onArchive={handleArchiveFromMove}
+        task={moveModal.task}
+        categories={categories.filter((c) => !isArchivedCategory(c))}
+        loading={moveLoading}
+      />
+
+      <ArchiveModal
+        isOpen={archiveOpen}
+        onClose={() => setArchiveOpen(false)}
+        archived={archivedTasks}
+        categories={categories.filter((c) => !isReservedCategory(c))}
+        onRestore={handleRestoreArchived}
+        onDelete={handleDeleteArchived}
       />
     </>
   );

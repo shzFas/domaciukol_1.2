@@ -26,7 +26,7 @@
     "category": "Kategorie",
     "categoryPlaceholder": "— Vyberte kategorii —",
     "deleteTitle": "Smazat úkol",
-    "deleteMessage": "Smazat úkol «{{name}}»? Tuto akci nelze vrátit."
+    "deleteMessage": "Smazat úkol «{{name}}»? Bude přesunut do archivu — později ho můžete obnovit."
   },
   "category": {
     "create": "Nový sloupec",
@@ -47,10 +47,47 @@
     "categoryRequired": "Vyberte kategorii",
     "invalidDate": "Neplatné datum",
     "invalidHex": "Neplatná HEX barva",
-    "serverError": "Chyba serveru"
+    "serverError": "Chyba serveru",
+    "categoryNameDuplicate": "Sloupec s tímto názvem už existuje",
+    "categoryNameReserved": "Tento název je rezervován systémem",
+    "categoryReservedReadOnly": "Tento systémový sloupec nelze upravit ani smazat"
   },
   "confirm": {
     "title": "Potvrzení",
     "message": "Opravdu chcete pokračovat? Tuto akci nelze vrátit."
+  },
+  "snackbar": {
+    "languageChanged": "Jazyk změněn na {{language}}",
+    "taskCreated": "Úkol «{{name}}» vytvořen",
+    "taskUpdated": "Úkol «{{name}}» upraven",
+    "taskDeleted": "Úkol «{{name}}» smazán",
+    "taskMoved": "Úkol «{{name}}» přesunut do «{{column}}»",
+    "taskMarkedDone": "Úkol «{{name}}» označen jako vyřízený",
+    "taskMarkedPending": "Úkol «{{name}}» označen jako nevyřízený",
+    "taskMoveFailed": "Úkol se nepodařilo přesunout",
+    "taskUpdateFailed": "Úkol se nepodařilo upravit",
+    "taskDeleteFailed": "Úkol se nepodařilo smazat",
+    "taskArchived": "Úkol «{{name}}» archivován",
+    "taskArchiveFailed": "Úkol se nepodařilo archivovat",
+    "taskRestored": "Úkol «{{name}}» obnoven do «{{column}}»",
+    "taskRestoreFailed": "Úkol se nepodařilo obnovit",
+    "noDoneColumn": "Sloupec «Done» nebyl nalezen",
+    "noArchiveColumn": "Sloupec «Archived» nebyl nalezen",
+    "categoryCreated": "Sloupec «{{name}}» vytvořen",
+    "categoryUpdated": "Sloupec «{{name}}» upraven",
+    "categoryDeleted": "Sloupec «{{name}}» smazán",
+    "categoryDeleteFailed": "Sloupec se nepodařilo smazat"
+  },
+  "move": {
+    "title": "Přesunout «{{name}}»",
+    "hint": "Vyberte sloupec, kam úkol přesunout, nebo ho archivujte.",
+    "archive": "Archivovat",
+    "noColumns": "Žádné další sloupce."
+  },
+  "archive": {
+    "title": "Archiv",
+    "empty": "Archiv je prázdný.",
+    "restore": "Obnovit",
+    "pickColumn": "— Vyberte sloupec —"
   }
 }

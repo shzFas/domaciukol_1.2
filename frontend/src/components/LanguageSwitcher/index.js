@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "flag-icons/css/flag-icons.min.css";
+import { useSnackbar } from "../Snackbar";
 import styles from "./LanguageSwitcher.module.css";
 
 const LANGUAGES = [
@@ -10,7 +11,8 @@ const LANGUAGES = [
 ];
 
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const snackbar = useSnackbar();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -30,7 +32,16 @@ export default function LanguageSwitcher() {
   }, []);
 
   const handleSelect = (code) => {
-    i18n.changeLanguage(code);
+    if (i18n.language.startsWith(code)) {
+      setOpen(false);
+      return;
+    }
+    i18n.changeLanguage(code).then(() => {
+      const lang = LANGUAGES.find((l) => l.code === code);
+      snackbar.success(
+        t("snackbar.languageChanged", { language: lang ? lang.label : code }),
+      );
+    });
     setOpen(false);
   };
 

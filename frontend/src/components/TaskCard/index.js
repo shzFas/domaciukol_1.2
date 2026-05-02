@@ -2,7 +2,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import styles from "./TaskCard.module.css";
 
-export default function TaskCard({ task, onEdit, onDelete }) {
+export default function TaskCard({ task, onEdit, onDelete, onToggleDone }) {
   const {
     attributes,
     listeners,
@@ -30,9 +30,19 @@ export default function TaskCard({ task, onEdit, onDelete }) {
       {...listeners}
     >
       <div className={styles.top}>
-        <span className={`${styles.status} ${styles[task.status]}`}>
-          {task.status === "done" ? "✓" : "●"}
-        </span>
+        <button
+          type="button"
+          className={`${styles.status} ${styles[task.status]} ${styles.statusBtn}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleDone?.(task);
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label={task.status === "done" ? "Rework" : "Mark done"}
+          title={task.status === "done" ? "Rework" : "Mark done"}
+        >
+          {task.status === "done" ? "↺" : "●"}
+        </button>
         <p className={styles.name}>{task.name}</p>
       </div>
 
@@ -47,6 +57,18 @@ export default function TaskCard({ task, onEdit, onDelete }) {
       )}
 
       <div className={styles.actions}>
+        <button
+          className={`${styles.actionBtn} ${task.status === "done" ? styles.reworkBtn : styles.doneBtn}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleDone?.(task);
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label={task.status === "done" ? "Rework" : "Mark done"}
+          title={task.status === "done" ? "Rework" : "Mark done"}
+        >
+          {task.status === "done" ? "🔄" : "✓"}
+        </button>
         <button
           className={styles.actionBtn}
           onClick={(e) => {
