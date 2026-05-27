@@ -9,7 +9,6 @@ const categories = [
   { name: "To Do", color: "#1a73e8" },
   { name: "In Progress", color: "#fb8c00" },
   { name: "Review", color: "#8e24aa" },
-  { name: "Done", color: "#43a047" },
 ];
 
 const getTasks = (ids) => [
@@ -26,10 +25,6 @@ const getTasks = (ids) => [
   { name: "Form validation", description: "express-validator on backend + client-side validation", deadline: new Date("2026-03-30"), status: "pending", category_id: ids[2] },
   { name: "UI components", description: "Button, Input, Textarea, Modal — reusable components", deadline: new Date("2026-03-28"), status: "pending", category_id: ids[2] },
 
-  // Done
-  { name: "Set up MongoDB", description: "Connect to MongoDB Atlas", deadline: new Date("2026-03-15"), status: "done", category_id: ids[3] },
-  { name: "REST API", description: "CRUD endpoints for Category and Task", deadline: new Date("2026-03-18"), status: "done", category_id: ids[3] },
-  { name: "Basic frontend", description: "React + React Router + Axios setup", deadline: new Date("2026-03-20"), status: "done", category_id: ids[3] },
 ];
 
 const seed = async () => {
